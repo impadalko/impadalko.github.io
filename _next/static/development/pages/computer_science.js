@@ -11330,7 +11330,7 @@ var Index = function Index() {
     },
     __self: this
   }, "Another page"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(next_link__WEBPACK_IMPORTED_MODULE_2___default.a, {
-    href: "computer_science/introduction",
+    href: "/computer_science/introduction",
     __source: {
       fileName: _jsxFileName,
       lineNumber: 14
@@ -11349,7 +11349,7 @@ var Index = function Index() {
 
 /***/ }),
 
-/***/ 1:
+/***/ 2:
 /*!******************************************************************************************************************************************************!*\
   !*** multi next-client-pages-loader?page=%2Fcomputer_science&absolutePagePath=%2Fhome%2Fivan%2FDev%2Fblog-src%2Fpages%2Fcomputer_science%2Findex.js ***!
   \******************************************************************************************************************************************************/
@@ -11372,5 +11372,5 @@ module.exports = dll_7aff549c98b978433226;
 
 /***/ })
 
-},[[1,"static/runtime/webpack.js"]]]);
+},[[2,"static/runtime/webpack.js"]]]);
 //# sourceMappingURL=computer_science.js.map
