@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["static/development/pages/index.js"],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["static/development/pages/computer_science.js"],{
 
 /***/ "./components/header.js":
 /*!******************************!*\
@@ -6252,21 +6252,21 @@ exports.formatWithValidation = formatWithValidation;
 
 /***/ }),
 
-/***/ "./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2F&absolutePagePath=%2Fhome%2Fivan%2FDev%2Fblog-src%2Fpages%2Findex.js!./":
-/*!***************************************************************************************************************************************************************!*\
-  !*** ./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2F&absolutePagePath=%2Fhome%2Fivan%2FDev%2Fblog-src%2Fpages%2Findex.js ***!
-  \***************************************************************************************************************************************************************/
+/***/ "./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2Fcomputer_science&absolutePagePath=%2Fhome%2Fivan%2FDev%2Fblog-src%2Fpages%2Fcomputer_science%2Findex.js!./":
+/*!**************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2Fcomputer_science&absolutePagePath=%2Fhome%2Fivan%2FDev%2Fblog-src%2Fpages%2Fcomputer_science%2Findex.js ***!
+  \**************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-    (window.__NEXT_P=window.__NEXT_P||[]).push(["/", function() {
-      var page = __webpack_require__(/*! ./pages/index.js */ "./pages/index.js")
+    (window.__NEXT_P=window.__NEXT_P||[]).push(["/computer_science", function() {
+      var page = __webpack_require__(/*! ./pages/computer_science/index.js */ "./pages/computer_science/index.js")
       if(true) {
-        module.hot.accept(/*! ./pages/index.js */ "./pages/index.js", function() {
-          if(!next.router.components["/"]) return
-          var updatedPage = __webpack_require__(/*! ./pages/index.js */ "./pages/index.js")
-          next.router.update("/", updatedPage.default || updatedPage)
+        module.hot.accept(/*! ./pages/computer_science/index.js */ "./pages/computer_science/index.js", function() {
+          if(!next.router.components["/computer_science"]) return
+          var updatedPage = __webpack_require__(/*! ./pages/computer_science/index.js */ "./pages/computer_science/index.js")
+          next.router.update("/computer_science", updatedPage.default || updatedPage)
         })
       }
       return { page: page.default || page }
@@ -11267,10 +11267,10 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ "./pages/index.js":
-/*!************************!*\
-  !*** ./pages/index.js ***!
-  \************************/
+/***/ "./pages/computer_science/index.js":
+/*!*****************************************!*\
+  !*** ./pages/computer_science/index.js ***!
+  \*****************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -11282,8 +11282,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var next_head__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(next_head__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! next/link */ "./node_modules/next/link.js");
 /* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(next_link__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _components_header_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/header.js */ "./components/header.js");
-var _jsxFileName = "/home/ivan/Dev/blog-src/pages/index.js";
+/* harmony import */ var _components_header_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/header.js */ "./components/header.js");
+var _jsxFileName = "/home/ivan/Dev/blog-src/pages/computer_science/index.js";
 
 
 
@@ -11317,7 +11317,7 @@ var Index = function Index() {
     },
     __self: this
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_header_js__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    title: "Welcome!",
+    title: "Computer Science",
     __source: {
       fileName: _jsxFileName,
       lineNumber: 12
@@ -11329,8 +11329,8 @@ var Index = function Index() {
       lineNumber: 13
     },
     __self: this
-  }, "This is my blog!"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(next_link__WEBPACK_IMPORTED_MODULE_2___default.a, {
-    href: "/computer_science",
+  }, "Another page"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(next_link__WEBPACK_IMPORTED_MODULE_2___default.a, {
+    href: "computer_science/introduction",
     __source: {
       fileName: _jsxFileName,
       lineNumber: 14
@@ -11342,21 +11342,21 @@ var Index = function Index() {
       lineNumber: 15
     },
     __self: this
-  }, "Computer Science")));
+  }, "Chapter 1 - Introduction")));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Index);
 
 /***/ }),
 
-/***/ 0:
-/*!*******************************************************************************************************************!*\
-  !*** multi next-client-pages-loader?page=%2F&absolutePagePath=%2Fhome%2Fivan%2FDev%2Fblog-src%2Fpages%2Findex.js ***!
-  \*******************************************************************************************************************/
+/***/ 1:
+/*!******************************************************************************************************************************************************!*\
+  !*** multi next-client-pages-loader?page=%2Fcomputer_science&absolutePagePath=%2Fhome%2Fivan%2FDev%2Fblog-src%2Fpages%2Fcomputer_science%2Findex.js ***!
+  \******************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! next-client-pages-loader?page=%2F&absolutePagePath=%2Fhome%2Fivan%2FDev%2Fblog-src%2Fpages%2Findex.js! */"./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2F&absolutePagePath=%2Fhome%2Fivan%2FDev%2Fblog-src%2Fpages%2Findex.js!./");
+module.exports = __webpack_require__(/*! next-client-pages-loader?page=%2Fcomputer_science&absolutePagePath=%2Fhome%2Fivan%2FDev%2Fblog-src%2Fpages%2Fcomputer_science%2Findex.js! */"./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2Fcomputer_science&absolutePagePath=%2Fhome%2Fivan%2FDev%2Fblog-src%2Fpages%2Fcomputer_science%2Findex.js!./");
 
 
 /***/ }),
@@ -11372,5 +11372,5 @@ module.exports = dll_7aff549c98b978433226;
 
 /***/ })
 
-},[[0,"static/runtime/webpack.js"]]]);
-//# sourceMappingURL=index.js.map
+},[[1,"static/runtime/webpack.js"]]]);
+//# sourceMappingURL=computer_science.js.map
