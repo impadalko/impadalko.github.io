@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/styles.chunk.css","sources":["webpack:///./static/styles.css"],"sourcesContent":["header h3 {\n    display: inline;\n}\n\nheader span {\n    float: right;\n}\n\nheader a {\n    margin-right: 1em;\n}\n"],"mappings":"AAAA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;;","sourceRoot":""}

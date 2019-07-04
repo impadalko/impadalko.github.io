@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["static/development/pages/index.js"],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["static/development/pages/computer_science/computer_networks.js"],{
 
 /***/ "./components/header.js":
 /*!******************************!*\
@@ -6350,21 +6350,21 @@ exports.formatWithValidation = formatWithValidation;
 
 /***/ }),
 
-/***/ "./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2F&absolutePagePath=%2Fhome%2Fivan%2FDev%2Fblog-src%2Fpages%2Findex.js!./":
-/*!***************************************************************************************************************************************************************!*\
-  !*** ./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2F&absolutePagePath=%2Fhome%2Fivan%2FDev%2Fblog-src%2Fpages%2Findex.js ***!
-  \***************************************************************************************************************************************************************/
+/***/ "./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2Fcomputer_science%2Fcomputer_networks&absolutePagePath=%2Fhome%2Fivan%2FDev%2Fblog-src%2Fpages%2Fcomputer_science%2Fcomputer_networks%2Findex.js!./":
+/*!******************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2Fcomputer_science%2Fcomputer_networks&absolutePagePath=%2Fhome%2Fivan%2FDev%2Fblog-src%2Fpages%2Fcomputer_science%2Fcomputer_networks%2Findex.js ***!
+  \******************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-    (window.__NEXT_P=window.__NEXT_P||[]).push(["/", function() {
-      var page = __webpack_require__(/*! ./pages/index.js */ "./pages/index.js")
+    (window.__NEXT_P=window.__NEXT_P||[]).push(["/computer_science/computer_networks", function() {
+      var page = __webpack_require__(/*! ./pages/computer_science/computer_networks/index.js */ "./pages/computer_science/computer_networks/index.js")
       if(true) {
-        module.hot.accept(/*! ./pages/index.js */ "./pages/index.js", function() {
-          if(!next.router.components["/"]) return
-          var updatedPage = __webpack_require__(/*! ./pages/index.js */ "./pages/index.js")
-          next.router.update("/", updatedPage.default || updatedPage)
+        module.hot.accept(/*! ./pages/computer_science/computer_networks/index.js */ "./pages/computer_science/computer_networks/index.js", function() {
+          if(!next.router.components["/computer_science/computer_networks"]) return
+          var updatedPage = __webpack_require__(/*! ./pages/computer_science/computer_networks/index.js */ "./pages/computer_science/computer_networks/index.js")
+          next.router.update("/computer_science/computer_networks", updatedPage.default || updatedPage)
         })
       }
       return { page: page.default || page }
@@ -11365,10 +11365,10 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ "./pages/index.js":
-/*!************************!*\
-  !*** ./pages/index.js ***!
-  \************************/
+/***/ "./pages/computer_science/computer_networks/index.js":
+/*!***********************************************************!*\
+  !*** ./pages/computer_science/computer_networks/index.js ***!
+  \***********************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -11376,56 +11376,64 @@ module.exports = function(module) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! next/link */ "./node_modules/next/link.js");
-/* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(next_link__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _layout_main_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../layout/main.js */ "./layout/main.js");
-var _jsxFileName = "/home/ivan/Dev/blog-src/pages/index.js";
-
+/* harmony import */ var _layout_main_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../layout/main.js */ "./layout/main.js");
+var _jsxFileName = "/home/ivan/Dev/blog-src/pages/computer_science/computer_networks/index.js";
 
 
 
 var Index = function Index() {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_layout_main_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    headerTitle: "Welcome!",
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_layout_main_js__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    headerTitle: "Computer Networks",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 6
+      lineNumber: 4
     },
     __self: this
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     __source: {
       fileName: _jsxFileName,
+      lineNumber: 5
+    },
+    __self: this
+  }, "This chapter will cover the concepts of Computer Networks such as:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 6
+    },
+    __self: this
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    __source: {
+      fileName: _jsxFileName,
       lineNumber: 7
     },
     __self: this
-  }, "This is my blog!"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(next_link__WEBPACK_IMPORTED_MODULE_1___default.a, {
-    href: "/computer_science",
+  }, "What is a computer network?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
     __source: {
       fileName: _jsxFileName,
       lineNumber: 8
     },
     __self: this
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+  }, "TCP/IP"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
     __source: {
       fileName: _jsxFileName,
       lineNumber: 9
     },
     __self: this
-  }, "Computer Science")));
+  }, "HTTP")));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Index);
 
 /***/ }),
 
-/***/ 0:
-/*!*******************************************************************************************************************!*\
-  !*** multi next-client-pages-loader?page=%2F&absolutePagePath=%2Fhome%2Fivan%2FDev%2Fblog-src%2Fpages%2Findex.js ***!
-  \*******************************************************************************************************************/
+/***/ 4:
+/*!**********************************************************************************************************************************************************************************************!*\
+  !*** multi next-client-pages-loader?page=%2Fcomputer_science%2Fcomputer_networks&absolutePagePath=%2Fhome%2Fivan%2FDev%2Fblog-src%2Fpages%2Fcomputer_science%2Fcomputer_networks%2Findex.js ***!
+  \**********************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! next-client-pages-loader?page=%2F&absolutePagePath=%2Fhome%2Fivan%2FDev%2Fblog-src%2Fpages%2Findex.js! */"./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2F&absolutePagePath=%2Fhome%2Fivan%2FDev%2Fblog-src%2Fpages%2Findex.js!./");
+module.exports = __webpack_require__(/*! next-client-pages-loader?page=%2Fcomputer_science%2Fcomputer_networks&absolutePagePath=%2Fhome%2Fivan%2FDev%2Fblog-src%2Fpages%2Fcomputer_science%2Fcomputer_networks%2Findex.js! */"./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2Fcomputer_science%2Fcomputer_networks&absolutePagePath=%2Fhome%2Fivan%2FDev%2Fblog-src%2Fpages%2Fcomputer_science%2Fcomputer_networks%2Findex.js!./");
 
 
 /***/ }),
@@ -11441,5 +11449,5 @@ module.exports = dll_7aff549c98b978433226;
 
 /***/ })
 
-},[[0,"static/runtime/webpack.js","styles"]]]);
-//# sourceMappingURL=index.js.map
+},[[4,"static/runtime/webpack.js","styles"]]]);
+//# sourceMappingURL=computer_networks.js.map
