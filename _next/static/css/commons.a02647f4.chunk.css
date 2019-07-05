@@ -1,0 +1,32 @@
+header h3 {
+    text-align: center;
+}
+
+nav {
+    overflow: auto;
+}
+
+nav span.home {
+    float: left;
+}
+
+nav span.sections {
+    float: right;
+}
+
+nav a {
+    margin-right: 1em;
+}
+
+div.content {
+    margin: auto;
+    width: 75%;
+}
+
+div.sidebar {
+    width: 25%;
+    float: right;
+    text-align: center;
+    background-color: #eee;
+}
+
