@@ -1,7 +1,17 @@
+/* Header properties */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding-left: 8px;
+}
+
 header h3 {
     text-align: center;
 }
 
+/* Nav properties */
 nav {
     overflow: auto;
 }
@@ -18,11 +28,14 @@ nav a {
     margin-right: 1em;
 }
 
-div.content {
+/* Main content properties */
+main {
     margin: auto;
+    margin-top: 90px;
     width: 75%;
 }
 
+/* Sidebar properties */
 div.sidebar {
     width: 25%;
     float: right;
