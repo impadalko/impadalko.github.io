@@ -34,3 +34,7 @@ footer {
   margin-top: auto;
   margin-bottom: 5px;
 }
+
+a {
+  text-decoration: none;
+}
