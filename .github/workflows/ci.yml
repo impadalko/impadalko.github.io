@@ -1,0 +1,30 @@
+name: CI
+
+on: push
+
+jobs:
+  build:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Initialize submodules
+        run: git submodule update --init --recursive
+      - name: Setup hugo
+        run: sudo apt update && sudo apt install hugo
+      - name: Change to deploy branch
+        run: git checkout -b deploy
+      - name: Build website
+        run: hugo
+      - name: Clean hosting branch
+        run: ls | grep -v -E "public" | xargs rm -rf
+      - name: Copy built files
+        run: cp -r public/* .
+      - name: Commit and push
+        run: |
+          git config user.name "Ivan Padalko"
+          git config user.email "dev@impadalko.com"
+          git add .
+          git commit -m "Automated Deploy $(date '+%Y-%m-%d')"
+          git push origin deploy --force
