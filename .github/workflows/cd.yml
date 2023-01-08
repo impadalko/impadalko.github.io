@@ -21,7 +21,7 @@ jobs:
       - name: Build website
         run: hugo
       - name: Clean hosting branch
-        run: ls | grep -v -E "public" | xargs rm -rf
+        run: ls | grep -v -E "public|CNAME" | xargs rm -rf
       - name: Copy built files
         run: cp -r public/* .
       - name: Commit and push
