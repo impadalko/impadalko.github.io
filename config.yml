@@ -2,3 +2,8 @@ baseURL: https://impadalko.com/
 languageCode: en-us
 title: Impadalko
 theme: "PaperMod"
+menu:
+  main:
+    - name: About
+      pageRef: /about
+      weight: 1
