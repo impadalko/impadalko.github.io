@@ -1,6 +1,6 @@
 ---
 title: "Creating Redis with TS - Preface"
-summary: "A post explaining why I'm creating a simplified Redis clone using Typescript."
+summary: "Why am I creating a simplified Redis clone using Typescript?"
 date: 2023-04-03
 ---
 
