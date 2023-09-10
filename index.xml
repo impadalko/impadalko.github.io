@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Impadalko</title>
+    <link>https://impadalko.com/</link>
+    <description>Recent content on Impadalko</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 10 Sep 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://impadalko.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Creating Redis with TS - Pinging the server</title>
+      <link>https://impadalko.com/posts/redis/ping/</link>
+      <pubDate>Sun, 10 Sep 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://impadalko.com/posts/redis/ping/</guid>
+      <description>Creating the basic server structure</description>
+    </item>
+    
+    <item>
+      <title>Creating Redis with TS - CLI</title>
+      <link>https://impadalko.com/posts/redis/cli/</link>
+      <pubDate>Sun, 02 Jul 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://impadalko.com/posts/redis/cli/</guid>
+      <description>Creating the Command Line Interface</description>
+    </item>
+    
+    <item>
+      <title>Creating Redis with TS - Preface</title>
+      <link>https://impadalko.com/posts/redis/preface/</link>
+      <pubDate>Mon, 03 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://impadalko.com/posts/redis/preface/</guid>
+      <description>Why am I creating a simplified Redis clone using Typescript?</description>
+    </item>
+    
+  </channel>
+</rss>

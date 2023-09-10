@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Creating Redis with TS - Pinging the server | Impadalko</title>
+<meta name="keywords" content="">
+<meta name="description" content="Creating the basic server structure">
+<meta name="author" content="">
+<link rel="canonical" href="https://impadalko.com/posts/redis/ping/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://impadalko.com/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://impadalko.com/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://impadalko.com/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://impadalko.com/apple-touch-icon.png">
+<link rel="mask-icon" href="https://impadalko.com/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Creating Redis with TS - Pinging the server" />
+<meta property="og:description" content="Creating the basic server structure" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://impadalko.com/posts/redis/ping/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-09-10T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-09-10T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Creating Redis with TS - Pinging the server"/>
+<meta name="twitter:description" content="Creating the basic server structure"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://impadalko.com/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Creating Redis with TS - Pinging the server",
+      "item": "https://impadalko.com/posts/redis/ping/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Creating Redis with TS - Pinging the server",
+  "name": "Creating Redis with TS - Pinging the server",
+  "description": "Creating the basic server structure",
+  "keywords": [
+    
+  ],
+  "articleBody": "Introduction This post describes the first step in creating a Redis server in Typescript. The goal of this first step is to have a functional server with a single command: PING. All code related to this post can be found in this repository.\nImplementing Overall structure The planned server structure is as follows (see a diagram below): for each client, a connection handler is created which manages all communication between the server and the client. This connection handler is responsible for processing the user input, routing the command to the correct processor and returning the output.\nThe command processors are responsible for communicating with the storage layer and other background resources (if any). This follows a strategy pattern which will allow for implementing different commands more easily and without affecting already implemented ones.\nDrawio version\nCreating a shared repository While implementing the code for this server, some logic was the same as the one implemented for the CLI. This is to be expected as much of the logic is naturally shared (for example, the protocol is the same for both the CLI and the server), however, since I wasn’t sure what parts would be truly shared, I decided not to start by creating a shared module as it felt as an early optimization. This proved to be the right choice as this allowed for more specific implementations of the server and CLI encoding and decoding algorithms.\nAll shared code was moved to this repository. Working with custom modules proved to be a very nice experience in Deno as it amounted to only importing from the GitHub URL.\nDealing with undocumented behavior For implementing a true clone, even undocumented behavior should be implemented for compability reasons. This is limiting and can be annoying as some quirks might require special handling only to replicate the original behavior. Since the main objective of this project is to better understand how Redis works, I will not necessarily implement all undocumented behavior.\nThat being said, one undocumented behavior I found and implemented is that when the input is sent not in an array of bulk strings, Redis will parse it as a plain string. This is very useful as it allows for quick testing the server by directly connecting to it using netcat. Of course, it would still be possible to do this without this feature but it would be a lot more annoying as I would need to manually encode each request.\nKnown bugs Multiple writes to the same connection When a command is split across multiple payloads, the server is unable to correctly parse it. This happens because the server will parse each payload as it was a command and, thus, a command split accross multiple payloads will be handled as if it were multiple commands. The correct approach would be to enqueue every payload and parse them when the request is fully read. I’m not sure how to do it correctly in Deno but I will attempt to fix it later. GitHub issue.\nClosing connections abruptly crashes the server This should be an overall easy fix and it will be implemented in the near future. GitHub issue\nConclusion Although one command has been successfully implemented, this is only the foundation upon which the server will be built. The next steps will be to implement the other commands starting with the most basic of them: GET and SET.\n",
+  "wordCount" : "565",
+  "inLanguage": "en",
+  "datePublished": "2023-09-10T00:00:00Z",
+  "dateModified": "2023-09-10T00:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://impadalko.com/posts/redis/ping/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Impadalko",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://impadalko.com/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://impadalko.com/" accesskey="h" title="Impadalko (Alt + H)">Impadalko</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Creating Redis with TS - Pinging the server
+    </h1>
+    <div class="post-meta"><span title='2023-09-10 00:00:00 +0000 UTC'>September 10, 2023</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h2 id="introduction">Introduction<a hidden class="anchor" aria-hidden="true" href="#introduction">#</a></h2>
+<p>This post describes the first step in creating a Redis server in Typescript. The goal of this first
+step is to have a functional server with a single command: <code>PING</code>. All code related to this post can
+be found in <a href="https://github.com/impadalko/redts-server">this repository</a>.</p>
+<h2 id="implementing">Implementing<a hidden class="anchor" aria-hidden="true" href="#implementing">#</a></h2>
+<h3 id="overall-structure">Overall structure<a hidden class="anchor" aria-hidden="true" href="#overall-structure">#</a></h3>
+<p>The planned server structure is as follows (see a diagram below): for each client, a connection
+handler is created which manages all communication between the server and the client. This
+connection handler is responsible for processing the user input, routing the command to the correct
+processor and returning the output.</p>
+<p>The command processors are responsible for communicating with the storage layer and other
+background resources (if any). This follows a <a href="https://refactoring.guru/design-patterns/strategy">strategy
+pattern</a> which will allow for implementing
+different commands more easily and without affecting already implemented ones.</p>
+<p><img loading="lazy" src="/serverStructure.png" alt="Server structure"  />
+</p>
+<p><a href="https://viewer.diagrams.net/?highlight=0000ff&amp;edit=_blank&amp;layers=1&amp;nav=1#R7VlLc5swEP41PsZjwDx8jB9NDmknU3emzamjgAxKBaJC2Li%2FvhIIAxF2qONnpie0q0VIu9%2B%2BRM%2BYhNkdBXHwmXgQ9%2FSBl%2FWMaU%2FXtYHh8IfgrAuOaQ0Lhk%2BRJ4Uqxhz9geWbkpsiDyYNQUYIZihuMl0SRdBlDR6glKyaYguCm1%2BNgQ8VxtwFWOV%2BRx4LCq6j2xX%2FHiI%2FKL%2BsWaNiJgSlsDxJEgCPrGosY9YzJpQQVozCbAKxUF6pl%2BK9T1tmNxujMGJdXpjOVuxbGmdO%2BPOL93TnvjxE4Y0mrbEEOJUnlrtl61IFlKSRB8Uqg54xXgWIwXkMXDG74kbnvICFmFMaHy4QxhOCCeV0RCIuNPZAEuSvi3l11%2FIgS0gZzGoseYo7SELI6JqLlLO21KiElGZKelUZyHIkL6gZxzAkE0hQ%2BJu1K73xgVTdv6jRblGjhZlQCOEHrevT%2Bp2ScuImyQF%2FywU0Pc6qST7yxXPOAGVJhW9EonJhvtFi7UJSMRv0OJAlSSgLiE8igGcVd9w0bCXzQEgszfUCGVtLrwQpI01jcxvS9Q%2F5fk48CaJvluQ0q09O15LaCoKEpNSFOxQt0cm14kO2Q84q5IQOdkKqhJAEBoUYMLRs%2Bn4bWuRKjwTl1i1FyGKR8H29htPmg%2FsjTFcANsFIqE8xO8Y8NsK3PRUkcREwFygTIDiIazY9U2%2FxzDbHdI7ml5qqn4%2FoFlZHt7A7ukVnP3ifddRccwLrHF%2FLzmVp2dmamzy03D81fSUpg0VqCkMQeUktMeUL78hLD%2BCZ14nNcISRH%2FGxy80CefUwFlEH8ULsVk6EyPMKBEC%2BNfCcrycwEIsgnGvNHPfMaauJd%2BJPiW%2BbdCu%2F0qjY2uLezaBvDxuhrwzY%2B2YUubAxaq5abvn4CUcz%2FofOutzoopzaUsuBWoE4uOf%2BiLkXbS%2FltbcLhAPUA0pBYKkFgaa3VATWsSoC%2FSwVwf7wtDvCU%2Bta8Z4Gn2o%2FNCmyBGc%2BUuLCJCHnh%2Bdw9KqTPD88r6wkcq4TnmpJdA3wvIDoeZaiYH94jq4TnqOrhOdQOzc8yw285xrOaut1%2Bv1%2B12s3rjx2vM5GOEex2XzphFHyC766bz2AaU3DbJjWaLnIMVosqx%2FNsuZWy3ZtYs02wx7olhbSpai2tyCkU1v8IXCjXM3rKm7Mk%2BJGbZTmjFDx0%2Bfc4dMe2JeW3QeKUk7R8meI5R1%2F0eRz6qk2U%2FX7gnh%2Fu9%2B1nzrVTSknq1%2BAxd1N9SPVmP0F">Drawio
+version</a></p>
+<h3 id="creating-a-shared-repository">Creating a shared repository<a hidden class="anchor" aria-hidden="true" href="#creating-a-shared-repository">#</a></h3>
+<p>While implementing the code for this server, some logic was the same as the one implemented for the
+CLI. This is to be expected as much of the logic is naturally shared (for example, the protocol is
+the same for both the CLI and the server), however, since I wasn&rsquo;t sure what parts would be truly
+shared, I decided not to start by creating a shared module as it felt as an early optimization.
+This proved to be the right choice as this allowed for more specific implementations of the server
+and CLI encoding and decoding algorithms.</p>
+<p>All shared code was moved to <a href="https://github.com/impadalko/redts-shared/">this repository</a>. Working
+with custom modules proved to be a very nice experience in Deno as it amounted to only importing
+from the <a href="https://github.com/impadalko/redts-server/blob/main/src/inputDecoder.ts#L1">GitHub URL</a>.</p>
+<h3 id="dealing-with-undocumented-behavior">Dealing with undocumented behavior<a hidden class="anchor" aria-hidden="true" href="#dealing-with-undocumented-behavior">#</a></h3>
+<p>For implementing a true clone, even undocumented behavior should be implemented for compability
+reasons. This is limiting and can be annoying as some quirks might require special handling only to
+replicate the original behavior. Since the main objective of this project is to better understand
+how Redis works, I will not necessarily implement all undocumented behavior.</p>
+<p>That being said, one undocumented behavior I found and implemented is that when the input is sent
+not in an array of bulk strings, Redis will parse it as a plain string. This is very useful as it
+allows for quick testing the server by directly connecting to it using
+<a href="https://netcat.sourceforge.net/">netcat</a>. Of course, it would still be possible to do this without
+this feature but it would be a lot more annoying as I would need to manually encode each request.</p>
+<h2 id="known-bugs">Known bugs<a hidden class="anchor" aria-hidden="true" href="#known-bugs">#</a></h2>
+<h3 id="multiple-writes-to-the-same-connection">Multiple writes to the same connection<a hidden class="anchor" aria-hidden="true" href="#multiple-writes-to-the-same-connection">#</a></h3>
+<p>When a command is split across multiple payloads, the server is unable to correctly parse it. This
+happens because the server will parse each payload as it was a command and, thus, a command split
+accross multiple payloads will be handled as if it were multiple commands. The correct approach
+would be to enqueue every payload and parse them when the request is fully read. I&rsquo;m not sure how to
+do it correctly in Deno but I will attempt to fix it later. <a href="https://github.com/impadalko/redts-server/issues/1">GitHub
+issue</a>.</p>
+<h3 id="closing-connections-abruptly-crashes-the-server">Closing connections abruptly crashes the server<a hidden class="anchor" aria-hidden="true" href="#closing-connections-abruptly-crashes-the-server">#</a></h3>
+<p>This should be an overall easy fix and it will be implemented in the near future. <a href="https://github.com/impadalko/redts-server/issues/2">GitHub
+issue</a></p>
+<h2 id="conclusion">Conclusion<a hidden class="anchor" aria-hidden="true" href="#conclusion">#</a></h2>
+<p>Although one command has been successfully implemented, this is only the foundation upon which the
+server will be built. The next steps will be to implement the other commands starting with the most
+basic of them: <code>GET</code> and <code>SET</code>.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://impadalko.com/">Impadalko</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

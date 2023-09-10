@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Creating Redis with TS - CLI | Impadalko</title>
+<meta name="keywords" content="">
+<meta name="description" content="Creating the Command Line Interface">
+<meta name="author" content="">
+<link rel="canonical" href="https://impadalko.com/posts/redis/cli/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://impadalko.com/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://impadalko.com/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://impadalko.com/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://impadalko.com/apple-touch-icon.png">
+<link rel="mask-icon" href="https://impadalko.com/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Creating Redis with TS - CLI" />
+<meta property="og:description" content="Creating the Command Line Interface" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://impadalko.com/posts/redis/cli/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-07-02T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-07-02T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Creating Redis with TS - CLI"/>
+<meta name="twitter:description" content="Creating the Command Line Interface"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://impadalko.com/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Creating Redis with TS - CLI",
+      "item": "https://impadalko.com/posts/redis/cli/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Creating Redis with TS - CLI",
+  "name": "Creating Redis with TS - CLI",
+  "description": "Creating the Command Line Interface",
+  "keywords": [
+    
+  ],
+  "articleBody": "Introduction This post aims to describe the process of writing a Command Line Interface (CLI) in Typescript for Redis. All the code related to this post can be found in this repository.\nIs a CLI even necessary? Strictly speaking, no, but it makes the interaction with the server a lot more convenient.\nWhy start with the CLI?  It’s very easy to test as we can always connect to a true redis server and see if it works; It provides a nice foundation to test the server when implementing it; It gives hands-on experience in understanding the network protocol used by Redis.  Could you implement this as a TS module? Yes and a module is arguably more useful (at least when considering pratical applications of Redis). However a CLI seems more interesting to me because for a module:\n I would have to design its API; There’s more repetitive work as I would need to define the calling method and signature for each command. For the CLI, this is not a worry at all.  How does this work? Redis uses Redis Serialization Protocol (RESP) for communicating with the redis server. For implementing the CLI, implementing this protocol is then necessary. Luckily this is not hard as described by the documentation:\n RESP is a compromise between the following things:\n Simple to implement. Fast to parse. Human readable.   Sending the request User input is read in loop using the prompt API. Given that this API is built to be compatible to the web API, it is not very customizable. This is fine for a project such as this one, but more complex features (such as an autocomplete) would require a different approach like implementing my own user input reader. Input reading is done directly in the code main method which is also responsible for parsing user arguments and connecting to the server. Note that the server is started using a different file to allow for the main method to be reused in integration tests.\nAfter the user input is read, it gets encoded as an array of bulk strings as dictated by the protocol and sent to the server. Given that the input is always sent in the same type, the logic is simple and can be implemented in few lines of code as seen here.\nProcessing the response While encoding the user input is easy, decoding the response is a little bit trickier. This is because the output can be in multiple types and these types can even be recursive (array of arrays for example). In practice, Redis does not support nested data structures so the response will not contain recursive types, however, since this is allowed by the protocol, I decided to parse this anyway. Unfortunately, this ended making the decoding of the output of the response the most complex part of the CLI.\nAlso, while I do not intend to implement command pipelining, I made the output decoder able to process it anyway as it seemed natural to me while implementing.\nTesting The CLI as a whole was tested while it was being developed against a true redis server to check if the server would interpret the requests correctly and the responses would be displayed correctly.\nAll code is tested by unit testing (100% coverage). Most of these tests are very method specific however the tests for the command processor (which is the class that encodes the request and process the response) act as more complete test by checking that all parts are communicating correctly.\nInitially, I thought that implementing integration tests would be too hard as I would need to:\n Spin up a redis server instance; Mock user input; Read console output.  However, integration tests offer more value than unit tests by checking that the code actually behaves correctly as a whole. I decided to give it a shot anyway and, after some research, I realized that 1) could be solved using service containers and 2) and 3) could be solved by stubbing the prompt and the log methods. Integration tests were then implemented in this commit.\nConclusion Implementing this CLI took longer than what I expected (two three months since my last blog post thanks also to the release of The Legend of Zelda: Tears of the Kingdom) but I think that the time I spent was worth it because:\n It gave me a solid foundation in understanding Deno tooling I understood better how Redis works under the hood.  This experience makes me feel that implementing the server will be easier than what I first thought. Let’s hope I don’t regret thinking like this!\n",
+  "wordCount" : "765",
+  "inLanguage": "en",
+  "datePublished": "2023-07-02T00:00:00Z",
+  "dateModified": "2023-07-02T00:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://impadalko.com/posts/redis/cli/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Impadalko",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://impadalko.com/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://impadalko.com/" accesskey="h" title="Impadalko (Alt + H)">Impadalko</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Creating Redis with TS - CLI
+    </h1>
+    <div class="post-meta"><span title='2023-07-02 00:00:00 +0000 UTC'>July 2, 2023</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h2 id="introduction">Introduction<a hidden class="anchor" aria-hidden="true" href="#introduction">#</a></h2>
+<p>This post aims to describe the process of writing a Command Line Interface (CLI) in Typescript for
+Redis. All the code related to this post can be found in <a href="https://github.com/impadalko/redts-cli">this
+repository</a>.</p>
+<h3 id="is-a-cli-even-necessary">Is a CLI even necessary?<a hidden class="anchor" aria-hidden="true" href="#is-a-cli-even-necessary">#</a></h3>
+<p>Strictly speaking, no, but it makes the interaction with the server a lot more convenient.</p>
+<h3 id="why-start-with-the-cli">Why start with the CLI?<a hidden class="anchor" aria-hidden="true" href="#why-start-with-the-cli">#</a></h3>
+<ol>
+<li>It&rsquo;s very easy to test as we can always connect to a true redis server and see if it works;</li>
+<li>It provides a nice foundation to test the server when implementing it;</li>
+<li>It gives hands-on experience in understanding the network protocol used by Redis.</li>
+</ol>
+<h3 id="could-you-implement-this-as-a-ts-module">Could you implement this as a TS module?<a hidden class="anchor" aria-hidden="true" href="#could-you-implement-this-as-a-ts-module">#</a></h3>
+<p>Yes and a module is arguably more useful (at least when considering pratical applications of Redis).
+However a CLI seems more interesting to me because for a module:</p>
+<ol>
+<li>I would have to design its API;</li>
+<li>There&rsquo;s more repetitive work as I would need to define the calling method and signature for each
+command. For the CLI, this is not a worry at all.</li>
+</ol>
+<h2 id="how-does-this-work">How does this work?<a hidden class="anchor" aria-hidden="true" href="#how-does-this-work">#</a></h2>
+<p>Redis uses <a href="https://redis.io/docs/reference/protocol-spec/">Redis Serialization Protocol (RESP)</a>
+for communicating with the redis server. For implementing the CLI, implementing this protocol is
+then necessary. Luckily this is not hard as described by the documentation:</p>
+<blockquote>
+<p>RESP is a compromise between the following things:</p>
+<ol>
+<li>Simple to implement.</li>
+<li>Fast to parse.</li>
+<li>Human readable.</li>
+</ol>
+</blockquote>
+<h3 id="sending-the-request">Sending the request<a hidden class="anchor" aria-hidden="true" href="#sending-the-request">#</a></h3>
+<p>User input is read in loop using the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/prompt">prompt
+API</a>. Given that this API is built
+to be compatible to the web API, it is not very customizable. This is fine for a project such as
+this one, but more complex features (such as an autocomplete) would require a different approach
+like implementing my own user input reader. Input reading is done directly in the code <a href="https://github.com/impadalko/redts-cli/blob/main/src/cli.ts">main
+method</a> which is also responsible for
+parsing user arguments and connecting to the server. Note that the server is started using a
+different file to allow for the main method to be reused in integration tests.</p>
+<p>After the user input is read, it gets encoded as an array of bulk strings as dictated by <a href="https://redis.io/docs/reference/protocol-spec/#send-commands-to-a-redis-server">the
+protocol</a> and sent
+to the server. Given that the input is always sent in the same type, the logic is simple and can be
+implemented in few lines of code as seen
+<a href="https://github.com/impadalko/redts-cli/blob/main/src/inputEncoder.ts">here</a>.</p>
+<h3 id="processing-the-response">Processing the response<a hidden class="anchor" aria-hidden="true" href="#processing-the-response">#</a></h3>
+<p>While encoding the user input is easy, decoding the response is a little bit trickier. This is
+because the output can be in multiple types and these types can even be recursive (array of arrays
+for example). In practice, <a href="https://redis.com/redis-enterprise/data-structures/">Redis does not support nested data
+structures</a> so the response will not contain
+recursive types, however, since this is allowed by the protocol, I decided to parse this anyway.
+Unfortunately, this ended making the <a href="https://github.com/impadalko/redts-cli/blob/main/src/outputDecoder.ts">decoding of the output of the response the most complex
+part of the CLI</a>.</p>
+<p>Also, while I do not intend to implement command pipelining, I made the output decoder able to
+process it anyway as it seemed natural to me while implementing.</p>
+<h2 id="testing">Testing<a hidden class="anchor" aria-hidden="true" href="#testing">#</a></h2>
+<p>The CLI as a whole was tested while it was being developed against a true redis server to check if
+the server would interpret the requests correctly and the responses would be displayed correctly.</p>
+<p>All code is tested by unit testing (100% coverage). Most of these tests are very method specific
+however the <a href="https://github.com/impadalko/redts-cli/blob/main/test/commandProcessor.test.ts">tests for the command processor (which is the class that encodes the request and
+process the
+response)</a> act as
+more complete test by checking that all parts are communicating correctly.</p>
+<p>Initially, I thought that implementing integration tests would be too hard as I would need to:</p>
+<ol>
+<li>Spin up a redis server instance;</li>
+<li>Mock user input;</li>
+<li>Read console output.</li>
+</ol>
+<p>However, integration tests offer more value than unit tests by checking that the code actually
+behaves correctly as a whole. I decided to give it a shot anyway and, after some research, I
+realized that 1) could be solved using <a href="https://docs.github.com/en/actions/using-containerized-services/about-service-containers">service
+containers</a>
+and 2) and 3) could be solved by stubbing the prompt and the log methods. Integration tests were
+then implemented in <a href="https://github.com/impadalko/redts-cli/commit/fe59ae3820ae225238ff81675cb04ee72173e82d">this
+commit</a>.</p>
+<h2 id="conclusion">Conclusion<a hidden class="anchor" aria-hidden="true" href="#conclusion">#</a></h2>
+<p>Implementing this CLI took longer than what I expected (<del>two</del> three months since my last blog post
+thanks also to the release of The Legend of Zelda: Tears of the Kingdom) but I think that the time I
+spent was worth it because:</p>
+<ol>
+<li>It gave me a solid foundation in understanding Deno tooling</li>
+<li>I understood better how Redis works under the hood.</li>
+</ol>
+<p>This experience makes me feel that implementing the server will be easier than what I first thought.
+Let&rsquo;s hope I don&rsquo;t regret thinking like this!</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://impadalko.com/">Impadalko</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

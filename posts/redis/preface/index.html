@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Creating Redis with TS - Preface | Impadalko</title>
+<meta name="keywords" content="">
+<meta name="description" content="Why am I creating a simplified Redis clone using Typescript?">
+<meta name="author" content="">
+<link rel="canonical" href="https://impadalko.com/posts/redis/preface/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.bccfefac377bc340f06c260aed1bddf49a4354816d7c570d6aac75a997986c95.css" integrity="sha256-vM/vrDd7w0DwbCYK7Rvd9JpDVIFtfFcNaqx1qZeYbJU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://impadalko.com/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://impadalko.com/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://impadalko.com/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://impadalko.com/apple-touch-icon.png">
+<link rel="mask-icon" href="https://impadalko.com/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Creating Redis with TS - Preface" />
+<meta property="og:description" content="Why am I creating a simplified Redis clone using Typescript?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://impadalko.com/posts/redis/preface/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-04-03T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-04-03T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Creating Redis with TS - Preface"/>
+<meta name="twitter:description" content="Why am I creating a simplified Redis clone using Typescript?"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://impadalko.com/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Creating Redis with TS - Preface",
+      "item": "https://impadalko.com/posts/redis/preface/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Creating Redis with TS - Preface",
+  "name": "Creating Redis with TS - Preface",
+  "description": "Why am I creating a simplified Redis clone using Typescript?",
+  "keywords": [
+    
+  ],
+  "articleBody": "Introduction This post is the first of a series where I will describe the process of creating a simplified Redis clone using TypeScript. These posts will be written as I work in this project with the objective of documenting both my development process and the rationale of some of my decisions.\nWhy recreate a well established open source project? My main objective is to understand how an in-memory database works in practice especially some of its more complex features such as persistence and transactions. While it’s possible to have a great conceptual understanding of how something works by using it, some of its quirks and limitations can only be understood by diving deep into it. One approach for this would be to study the Redis source code and possibly contributing to it, however, I’m not interested in doing this right now and it would probably make me focus only on some aspects of this product as it is a very mature technology.\nRecreating the technology, even if only a subset of its features, would make me think how I would implement it and would allow me to better understand some of the early challenges faced by the developers. Also, this would give me some experience (even if not in a professional way) in developing a foundational service such as database. In this sense, an in-memory one seems to be a nice place to start.\nWhy Redis? For many reasons!\n Redis has many applications: database, cache, message broker etc. Redis is conceptually simple storing its data in-memory. Many of the features can be incrementally implemented.  Why TS? From 2018 until 2021 I worked with JavaScript. From there, I started using Typescript almost exclusively at the end of 2020. While this family of languages certainly has its quirk and some questionable features (this and this talks come to mind), its ubiquity, large set of features and community has made it a language that I really enjoy working with.\nHowever, things move really fast on the JS world and, certainly, a lot must have changed since I last worked with it. Starting a project like this is a nice way to getting up to date on the new features and refreshing my knowledge on the language. Also, this seems a nice time to check out Deno, something I was curious about since 2018.\nWhy write about this at all? Writing about your own work is a great way of keeping a log of your technical decisions and the challenges you faced. While lots of information can be inferred from commit messages, some of details are lost. This is also a way of practicing my technical writing and forcing me into thinking on how I can organize my work based on how I will structure these posts (e.g., how should I implement a given part so I can make a self-contained post?).\nDesired Features Redis has many features, many of which I have no interest in implementing right now so I will focus on only some of these. I plan to implement features more related to the caching and database aspect of Redis. I don’t intend to implement features related to authentication, scripting, replication or partitioning (but this can, of course, change).\nFeatures I would like to implement:  Strings Hashes Lists Persistence CLI  Features I might implement:  Sets Transactions LRU eviction  Command Set Redis has many, many commands. Implementing all of them would require me to implement multiple features I’m not interested in and would take way too long. For this reason, I’ll start with some commands and possibly implement others if I feel like doing so.\nCommands I would like to implement:  APPEND: Append a value to a key COMMAND: Get array of command details COPY: Copy the value of a key DECR: Decrement the integer value of a key by one DEL: Delete a key EXISTS: Determine if a key exists EXPIRE: Set the TTL of key in seconds GET: Get the value of key GETDEL: Get the value of a key and delete the key HDEL: Delete one or more hash fields HEXISTS: Determine if a hash field exists HGET: Get the value of a hash field HGETALL: Get all the fields and values in a hash HSET: Set the value of a hash field INCR: Increment the integer value of a key by one LPOP: Remove and get the first element of a list LPUSH: Prepend one or more elements to a list LSET: Set the value of an element in a list by its index PERSIST: Remove the expiration of a key PING: Ping the server RENAME: Rename a key RPOP: Remove and get the last element of a list RPUSH: Append one or more elements to a list SET: Set the string value of a key SETEX: Set the value and expiration of a key SHUTDOWN: Shut down the server (saving if persistence is implemented) QUIT: Close the connection  Commands I might implement:  Those related to sets (SADD, SREM, SISMEMBER etc) Those related to transactions (MULTI, EXEC and DISCARD) Those related to persistence (SAVE, BGSAVE, LASTSAVE etc) as these are not necessary to implement basic persistence features  ",
+  "wordCount" : "859",
+  "inLanguage": "en",
+  "datePublished": "2023-04-03T00:00:00Z",
+  "dateModified": "2023-04-03T00:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://impadalko.com/posts/redis/preface/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Impadalko",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://impadalko.com/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://impadalko.com/" accesskey="h" title="Impadalko (Alt + H)">Impadalko</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Creating Redis with TS - Preface
+    </h1>
+    <div class="post-meta"><span title='2023-04-03 00:00:00 +0000 UTC'>April 3, 2023</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h2 id="introduction">Introduction<a hidden class="anchor" aria-hidden="true" href="#introduction">#</a></h2>
+<p>This post is the first of a series where I will describe the process of creating a simplified Redis
+clone using TypeScript. These posts will be written as I work in this project with the objective of
+documenting both my development process and the rationale of some of my decisions.</p>
+<h3 id="why-recreate-a-well-established-open-source-project">Why recreate a well established open source project?<a hidden class="anchor" aria-hidden="true" href="#why-recreate-a-well-established-open-source-project">#</a></h3>
+<p>My main objective is to understand how an in-memory database works in practice especially some of
+its more complex features such as persistence and transactions. While it&rsquo;s possible to have a great
+conceptual understanding of how something works by using it, some of its quirks and limitations can
+only be understood by diving deep into it. One approach for this would be to study the Redis source
+code and possibly contributing to it, however, I&rsquo;m not interested in doing this right now and it
+would probably make me focus only on some aspects of this product as it is a very mature technology.</p>
+<p>Recreating the technology, even if only a subset of its features, would make me think how I would
+implement it and would allow me to better understand some of the early challenges faced by the
+developers. Also, this would give me some experience (even if not in a professional way) in
+developing a foundational service such as database. In this sense, an in-memory one seems to be a
+nice place to start.</p>
+<h3 id="why-redis">Why Redis?<a hidden class="anchor" aria-hidden="true" href="#why-redis">#</a></h3>
+<p>For many reasons!</p>
+<ol>
+<li>Redis has many applications: database, cache, message broker etc.</li>
+<li>Redis is conceptually simple storing its data in-memory.</li>
+<li>Many of the features can be incrementally implemented.</li>
+</ol>
+<h3 id="why-ts">Why TS?<a hidden class="anchor" aria-hidden="true" href="#why-ts">#</a></h3>
+<p>From 2018 until 2021 I worked with JavaScript. From there, I started using Typescript almost
+exclusively at the end of 2020. While this family of languages certainly has its quirk and some
+questionable features (<a href="https://www.destroyallsoftware.com/talks/wat">this</a> and
+<a href="https://www.youtube.com/watch?v=et8xNAc2ic8">this</a> talks come to mind), its ubiquity, large set of
+features and community has made it a language that I really enjoy working with.</p>
+<p>However, things move really fast on the JS world and, certainly, a lot must have changed since I
+last worked with it. Starting a project like this is a nice way to getting up to date on the new
+features and refreshing my knowledge on the language. Also, this seems a nice time to check out
+<a href="https://deno.land/">Deno</a>, something <a href="https://www.youtube.com/watch?v=M3BM9TB-8yA">I was curious about since
+2018</a>.</p>
+<h3 id="why-write-about-this-at-all">Why write about this at all?<a hidden class="anchor" aria-hidden="true" href="#why-write-about-this-at-all">#</a></h3>
+<p>Writing about your own work is a great way of keeping a log of your technical decisions and the
+challenges you faced. While lots of information can be inferred from commit messages, some of
+details are lost. This is also a way of practicing my technical writing and forcing me into thinking
+on how I can organize my work based on how I will structure these posts (e.g., how should I
+implement a given part so I can make a self-contained post?).</p>
+<h2 id="desired-features">Desired Features<a hidden class="anchor" aria-hidden="true" href="#desired-features">#</a></h2>
+<p>Redis has <a href="https://redis.io/docs/about/">many features</a>, many of which I have no interest in
+implementing right now so I will focus on only some of these. I plan to implement features more
+related to the caching and database aspect of Redis. I don&rsquo;t intend to implement features related to
+authentication, scripting, replication or partitioning (but this can, of course, change).</p>
+<h3 id="features-i-would-like-to-implement">Features I would like to implement:<a hidden class="anchor" aria-hidden="true" href="#features-i-would-like-to-implement">#</a></h3>
+<ul>
+<li>Strings</li>
+<li>Hashes</li>
+<li>Lists</li>
+<li>Persistence</li>
+<li>CLI</li>
+</ul>
+<h3 id="features-i-might-implement">Features I might implement:<a hidden class="anchor" aria-hidden="true" href="#features-i-might-implement">#</a></h3>
+<ul>
+<li>Sets</li>
+<li>Transactions</li>
+<li>LRU eviction</li>
+</ul>
+<h2 id="command-set">Command Set<a hidden class="anchor" aria-hidden="true" href="#command-set">#</a></h2>
+<p>Redis has <a href="https://redis.io/commands/">many, many commands</a>. Implementing all of them would require
+me to implement multiple features I&rsquo;m not interested in and would take way too long. For this
+reason, I&rsquo;ll start with some commands and possibly implement others if I feel like doing so.</p>
+<h3 id="commands-i-would-like-to-implement">Commands I would like to implement:<a hidden class="anchor" aria-hidden="true" href="#commands-i-would-like-to-implement">#</a></h3>
+<ul>
+<li><code>APPEND</code>: Append a value to a key</li>
+<li><code>COMMAND</code>: Get array of command details</li>
+<li><code>COPY</code>: Copy the value of a key</li>
+<li><code>DECR</code>: Decrement the integer value of a key by one</li>
+<li><code>DEL</code>: Delete a key</li>
+<li><code>EXISTS</code>: Determine if a key exists</li>
+<li><code>EXPIRE</code>: Set the TTL of key in seconds</li>
+<li><code>GET</code>: Get the value of key</li>
+<li><code>GETDEL</code>: Get the value of a key and delete the key</li>
+<li><code>HDEL</code>: Delete one or more hash fields</li>
+<li><code>HEXISTS</code>: Determine if a hash field exists</li>
+<li><code>HGET</code>: Get the value of a hash field</li>
+<li><code>HGETALL</code>: Get all the fields and values in a hash</li>
+<li><code>HSET</code>: Set the value of a hash field</li>
+<li><code>INCR</code>: Increment the integer value of a key by one</li>
+<li><code>LPOP</code>: Remove and get the first element of a list</li>
+<li><code>LPUSH</code>: Prepend one or more elements to a list</li>
+<li><code>LSET</code>: Set the value of an element in a list by its index</li>
+<li><code>PERSIST</code>: Remove the expiration of a key</li>
+<li><code>PING</code>: Ping the server</li>
+<li><code>RENAME</code>: Rename a key</li>
+<li><code>RPOP</code>: Remove and get the last element of a list</li>
+<li><code>RPUSH</code>: Append one or more elements to a list</li>
+<li><code>SET</code>: Set the string value of a key</li>
+<li><code>SETEX</code>: Set the value and expiration of a key</li>
+<li><code>SHUTDOWN</code>: Shut down the server (saving if persistence is implemented)</li>
+<li><code>QUIT</code>: Close the connection</li>
+</ul>
+<h3 id="commands-i-might-implement">Commands I might implement:<a hidden class="anchor" aria-hidden="true" href="#commands-i-might-implement">#</a></h3>
+<ul>
+<li>Those related to sets (<code>SADD</code>, <code>SREM</code>, <code>SISMEMBER</code> etc)</li>
+<li>Those related to transactions (<code>MULTI</code>, <code>EXEC</code> and <code>DISCARD</code>)</li>
+<li>Those related to persistence (<code>SAVE</code>, <code>BGSAVE</code>, <code>LASTSAVE</code> etc) as these are not necessary to
+implement basic persistence features</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://impadalko.com/">Impadalko</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
