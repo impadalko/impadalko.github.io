@@ -4,6 +4,9 @@ title: Impadalko
 theme: "PaperMod"
 menu:
   main:
+    - name: Games
+      pageRef: /games
+      weight: 1
     - name: About
       pageRef: /about
-      weight: 1
+      weight: 99
