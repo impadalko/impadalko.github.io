@@ -8,18 +8,22 @@ on:
 jobs:
   build:
     name: Build and Deploy
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Initialize submodules
-        run: git submodule update --init --recursive
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 0
       - name: Setup hugo
-        run: sudo apt update && sudo apt install hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: '0.92.2'
+          extended: true
       - name: Change to deploy branch
         run: git checkout -b deploy
       - name: Build website
-        run: hugo
+        run: hugo --minify
       - name: Clean hosting branch
         run: ls | grep -v -E "public|CNAME" | xargs rm -rf
       - name: Copy built files
