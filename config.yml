@@ -3,6 +3,9 @@ languageCode: en-us
 title: Impadalko
 theme: "PaperMod"
 params:
+  mainSections:
+    - reflections
+    - games
   homeInfoParams:
     Title: "Impadalko"
     Content: "Personal blog of Ivan Padalko. [Read more about me](/about)"
@@ -18,6 +21,9 @@ menu:
   main:
     - name: Games
       pageRef: /games
+      weight: 1
+    - name: Reflections
+      pageRef: /reflections
       weight: 1
     - name: About
       pageRef: /about
