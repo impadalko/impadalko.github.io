@@ -1,6 +1,7 @@
 ---
 title: "Neon White"
 date: 2026-01-24T10:14:05-03:00
+slug: "neon-white"
 draft: false
 ---
 
