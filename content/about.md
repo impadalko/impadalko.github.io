@@ -31,3 +31,10 @@ title: "About"
 
 * **Diplôme de l'École polytechnique** @ École Polytechnique *(2019)*
 * **Computer Engineering** @ Instituto Tecnológico de Aeronáutica *(2019)*
+
+---
+
+### Disclaimers
+
+- All content in the site is written on my personal time using my own resources. My opinions do not reflect those of my current or past employers.
+- All content is authored by me. I use AI tools to proofread my content before publishing but never for creating content directly.
