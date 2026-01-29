@@ -1,7 +1,6 @@
 ---
 title: "The Case Of The Golden Idol"
 date: 2026-01-25T20:56:54-03:00
-slug: "the-case-of-the-golden-idol"
 draft: false
 ---
 

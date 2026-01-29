@@ -11,6 +11,9 @@ params:
       url: "/index.xml"
     - name: github
       url: "https://github.com/impadalko"
+permalinks:
+  reflections: "/reflections/:title/"
+  games: "/games/:title/"
 menu:
   main:
     - name: Games
