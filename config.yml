@@ -2,6 +2,15 @@ baseURL: https://impadalko.com/
 languageCode: en-us
 title: Impadalko
 theme: "PaperMod"
+params:
+  homeInfoParams:
+    Title: "Impadalko"
+    Content: "Personal blog of Ivan Padalko. [Read more about me](/about)"
+  socialIcons:
+    - name: rss
+      url: "/index.xml"
+    - name: github
+      url: "https://github.com/impadalko"
 menu:
   main:
     - name: Games
