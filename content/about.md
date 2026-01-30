@@ -36,5 +36,5 @@ title: "About"
 
 ### Disclaimers
 
-- All content in the site is written on my personal time using my own resources. My opinions do not reflect those of my current or past employers.
-- All content is authored by me. I use AI tools to proofread my content before publishing but never for creating content directly.
+- All content on this site is created on my personal time using my own resources. My opinions do not reflect those of my current or past employers.
+- All content is authored by me. I use AI tools to proofread my drafts before publishing but never for creating content directly.
