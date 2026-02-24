@@ -7,6 +7,7 @@ draft: false
 ### A classic showing its age
 *Finished: 2026/02/22*
 
+<!--more-->
 ---
 
 I started playing *Chrono Trigger* with high expectations as it is often listed as the best RPG of all time. Unfortunately, I got disappointed. The combat is usually about understanding a gimmick and then executing it. The characters are not very developed and often lack agency (it feels like the story happens to them rather than being driven by them). And the concept of changing the past is barely explored after its introduction with Marle.
