@@ -1,7 +1,6 @@
 ---
-title: "Finding New Meaning"
+title: "Finding new meaning"
 date: 2026-02-01T16:01:23-03:00
-slug: "finding-new-meaning"
 draft: false
 ---
 

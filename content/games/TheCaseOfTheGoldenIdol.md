@@ -1,5 +1,5 @@
 ---
-title: "The Case Of The Golden Idol"
+title: "The Case of the Golden Idol"
 date: 2026-01-25T20:56:54-03:00
 draft: false
 ---
