@@ -14,6 +14,7 @@ params:
       url: "/index.xml"
     - name: github
       url: "https://github.com/impadalko"
+paginate: 5
 permalinks:
   reflections: "/reflections/:title/"
   games: "/games/:title/"
