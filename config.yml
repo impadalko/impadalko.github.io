@@ -4,8 +4,9 @@ title: Impadalko
 theme: "PaperMod"
 params:
   mainSections:
-    - reflections
     - games
+    - books
+    - reflections
   homeInfoParams:
     Title: "Impadalko"
     Content: "Personal blog of Ivan Padalko. [Read more about me](/about)"
@@ -16,12 +17,16 @@ params:
       url: "https://github.com/impadalko"
 paginate: 5
 permalinks:
-  reflections: "/reflections/:title/"
   games: "/games/:title/"
+  books: "/books/:title/"
+  reflections: "/reflections/:title/"
 menu:
   main:
     - name: Games
       pageRef: /games
+      weight: 1
+    - name: Books
+      pageRef: /books
       weight: 1
     - name: Reflections
       pageRef: /reflections
