@@ -6,6 +6,7 @@ params:
   mainSections:
     - games
     - books
+    - tv-movies
     - reflections
   homeInfoParams:
     Title: "Impadalko"
@@ -19,6 +20,7 @@ paginate: 5
 permalinks:
   games: "/games/:title/"
   books: "/books/:title/"
+  tv-movies: "/tv-movies/:title/"
   reflections: "/reflections/:title/"
 menu:
   main:
@@ -27,6 +29,9 @@ menu:
       weight: 1
     - name: Books
       pageRef: /books
+      weight: 1
+    - name: TV & Movies
+      pageRef: /tv-movies
       weight: 1
     - name: Reflections
       pageRef: /reflections
