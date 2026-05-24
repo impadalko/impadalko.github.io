@@ -1,5 +1,5 @@
 ---
-title: "Invincible Season 4"
+title: "Invincible - Season 4"
 date: 2026-05-23T21:18:50-03:00
 draft: false
 ---
