@@ -4,7 +4,7 @@ date: 2026-08-23T20:58:56-03:00
 draft: false
 ---
 
-Project Hail Mary was an enjoyable watch. The premise is interesting: aliens do exist and they are an immediate threat to human life, not in an intentional way but due to their life cycle. This feels refreshing as it is still a great narrative conflict without the direct violence often introduced with extraterrestrial life.
+*Project Hail Mary* was an enjoyable watch. The premise is interesting: aliens do exist and they are an immediate threat to human life, not in an intentional way but due to their life cycle. This feels refreshing as it is still a great narrative conflict without the direct violence often introduced with extraterrestrial life.
 
 The strongest part of the movie is Rocky. Their ingenuity, quirky behavior and child-like curiosity make them adorable. I particularly enjoy how the movie portrayed them as something different from Earth biology with a clear barrier to communication. That being said, while there is a significant section about creating a shared language, the movie fully hand waves it later on. While this is understandable to make interactions with them smoother, it is a bit uncanny, making Rocky feel like a human puppet rather than an alien.
 
