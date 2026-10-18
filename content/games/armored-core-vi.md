@@ -2,6 +2,7 @@
 title: "Armored Core VI: Fires of Rubicon"
 date: 2026-09-20T20:41:46-03:00
 draft: false
+url: /games/armored-core-vi
 ---
 
 *Finished: 2026/09/12*
